@@ -1,8 +1,5 @@
 FROM quay.io/keycloak/keycloak:26.6.0
 
-ENV KEYCLOAK_ADMIN=admin
-ENV KEYCLOAK_ADMIN_PASSWORD=admin
+RUN /opt/keycloak/bin/kc.sh build --db=dev-file
 
-COPY --chmod=755 start.sh /start.sh
-
-ENTRYPOINT ["/start.sh"]
+ENTRYPOINT ["/bin/sh", "-c", "/opt/keycloak/bin/kc.sh start --optimized --http-port=$PORT --proxy-headers=xforwarded"]
